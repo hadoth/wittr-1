@@ -4,7 +4,7 @@ self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(staticCacheName).then(function(cache) {
       return cache.addAll([
-        '/',
+        '/skeleton',
         'js/main.js',
         'css/main.css',
         'imgs/icon.png',
@@ -38,5 +38,11 @@ self.addEventListener('fetch', function(event) {
   );
 });
 
+self.addEventListener('message', function (message)  {
+    if (message.data.reload) {
+        self.skipWaiting();
+
+    }
+})
 // TODO: listen for the "message" event, and call
 // skipWaiting if you get the appropriate message

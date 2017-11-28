@@ -36,8 +36,9 @@ IndexController.prototype._registerServiceWorker = function() {
     });
   });
 
-  // TODO: listen for the controlling service worker changing
-  // and reload the page
+  navigator.serviceWorker.addEventListener('controllerchange', function () {
+      window.location.reload();
+  })
 };
 
 IndexController.prototype._trackInstalling = function(worker) {
@@ -55,7 +56,9 @@ IndexController.prototype._updateReady = function(worker) {
   });
 
   toast.answer.then(function(answer) {
-    if (answer != 'refresh') return;
+    if (answer == 'refresh') {
+        worker.postMessage({reload: true});
+    };
     // TODO: tell the service worker to skipWaiting
   });
 };
